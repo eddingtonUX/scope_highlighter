@@ -37,6 +37,11 @@ function init() {
 	var myCode = document.getElementById("myCode");
 	var output = document.getElementById("output");
 	var btn = document.getElementById("parseVariables");
+	let cm = new CodeMirror.fromTextArea(document.getElementById("output"), {
+		lineNumbers: true,
+		mode: "javascript",
+		theme: "dracula"
+	});
 	btn.addEventListener("click", parseCode, false);
 }
 
