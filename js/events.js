@@ -25,10 +25,10 @@ function createTags(arr) {
 function parseCode() {
 	let myCode = document.getElementById("myCode");
 	let output = document.getElementById("output");
-	console.log(myCode.value);
-	let linesArray = myCode.value.split("\n");
+	console.log(document.editorField.getValue());
+	let linesArray = document.editorField.getValue().split("\n");
 	console.log("Lines are: "+linesArray);
-	output.innerHTML = myCode.value;
+	output.innerHTML = document.editorField.getValue();
 	createTags(linesArray);
 }
 
@@ -37,11 +37,9 @@ function init() {
 	var myCode = document.getElementById("myCode");
 	var output = document.getElementById("output");
 	var btn = document.getElementById("parseVariables");
-	let cm = new CodeMirror.fromTextArea(document.getElementById("output"), {
-		lineNumbers: true,
-		mode: "javascript",
-		theme: "dracula"
-	});
+	var options = {lineNumbers: true, mode: "javascript"};
+	let cm = new CodeMirror.fromTextArea(myCode, options);
+	document.editorField = cm;
 	btn.addEventListener("click", parseCode, false);
 }
 
