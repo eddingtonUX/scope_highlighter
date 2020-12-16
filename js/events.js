@@ -13,9 +13,11 @@ function createTags(arr) {
 		span.setAttribute("id", "tag" + tagId++);
 		span.addEventListener("mouseover", function(e) {
 			e.target.style.backgroundColor = "yellow";
+			document.editorField.addLineClass(i, "background", "hilite");
 		})
 		span.addEventListener("mouseout", function(e) {
 			e.target.style.backgroundColor = "";
+			document.editorField.removeLineClass(i, "background", "hilite");
 		})
 		output.appendChild(span);
 	}
