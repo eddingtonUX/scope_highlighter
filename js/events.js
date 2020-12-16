@@ -37,7 +37,7 @@ function init() {
 	var myCode = document.getElementById("myCode");
 	var output = document.getElementById("output");
 	var btn = document.getElementById("parseVariables");
-	var options = {lineNumbers: true, mode: "javascript"};
+	var options = {lineNumbers: true, mode: "javascript", theme: "base16-dark"};
 	let cm = new CodeMirror.fromTextArea(myCode, options);
 	document.editorField = cm;
 	btn.addEventListener("click", parseCode, false);
