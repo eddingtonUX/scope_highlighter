@@ -1,6 +1,7 @@
 function createTags(arr) {
 	let tagId = 0;
 	let output = document.getElementById("output");
+	let numLines = document.editorField.lineCount();
 
 	if (output.innerHTML != "") {
 		output.removeChild(output.firstChild);
@@ -8,17 +9,48 @@ function createTags(arr) {
 
 	for (let i = 0; i < arr.length; i++) {
 		var span = document.createElement("span");
-		span.appendChild(document.createTextNode(arr[i] + " "));
+		span.appendChild(document.createTextNode(arr[i]));
 		span.className = "tag";
 		span.setAttribute("id", "tag" + tagId++);
 		span.addEventListener("mouseover", function(e) {
 			e.target.style.backgroundColor = "yellow";
-			document.editorField.addLineClass(i, "background", "hilite");
-		})
+			for (let l = 0; l < numLines; l++) {
+				let strCode = document.editorField.getLine(l);
+				let strTag = e.target.innerHTML;
+				if(document.editorField.getLine(l) == e.target.innerHTML) {
+					document.editorField.addLineClass(l, "background", "hilite");
+				};
+			}
+		});
 		span.addEventListener("mouseout", function(e) {
 			e.target.style.backgroundColor = "";
-			document.editorField.removeLineClass(i, "background", "hilite");
-		})
+			for (let l = 0; l < numLines; l++) {
+				let strCode = document.editorField.getLine(l);
+				let strTag = e.target.innerHTML;
+				if(document.editorField.getLine(l) == e.target.innerHTML) {
+					document.editorField.removeLineClass(l, "background", "hilite");
+				};
+			}
+		});
+/*		span.addEventListener("click", function(e) {
+			let numLines = document.editorField.lineCount();
+			for (let l = 0; l < numLines; l++) {
+				let strCode = document.editorField.getLine(l);
+				let strTag = e.target.innerHTML;
+				if(document.editorField.getLine(l) == e.target.innerHTML) {
+					document.editorField.addLineClass(l, "background", "hilite");
+				};
+			}
+			document.editorField.eachLine(function(line) {
+				console.log(line);
+				console.log(line.getLineNumber);
+				console.log(e.target.innerHTML);
+				// console.log("Line "+line+" is "+document.editorField.getLine(line));
+				if(line.text == e.target.innerHTML) {
+					document.editorField.addLineClass(line.order, "background", "hilite");
+				};
+			})
+		});*/
 		output.appendChild(span);
 	}
 }

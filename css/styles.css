@@ -7,3 +7,9 @@
 .hilite {
 	background: yellow;
 }
+
+.tag {
+/*	background-color: lightgrey;*/
+/*	padding: 1em;*/
+	margin: 0.5em;
+}
