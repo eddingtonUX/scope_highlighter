@@ -15,8 +15,6 @@ function createTags(arr) {
 		span.addEventListener("mouseover", function(e) {
 			e.target.style.backgroundColor = "yellow";
 			for (let l = 0; l < numLines; l++) {
-				let strCode = document.editorField.getLine(l);
-				let strTag = e.target.innerHTML;
 				if(document.editorField.getLine(l) == e.target.innerHTML) {
 					document.editorField.addLineClass(l, "background", "hilite");
 				};
@@ -25,8 +23,6 @@ function createTags(arr) {
 		span.addEventListener("mouseout", function(e) {
 			e.target.style.backgroundColor = "";
 			for (let l = 0; l < numLines; l++) {
-				let strCode = document.editorField.getLine(l);
-				let strTag = e.target.innerHTML;
 				if(document.editorField.getLine(l) == e.target.innerHTML) {
 					document.editorField.removeLineClass(l, "background", "hilite");
 				};
