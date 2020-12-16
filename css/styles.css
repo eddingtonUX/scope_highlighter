@@ -1,5 +1,11 @@
+body {
+	margin: 2em;
+	font-family: sans-serif;
+}
+
 #output {
-	width: 495px;
+/*	width: 495px;*/
+	margin-top: 1em;
 	border: 1px solid black;
 	padding: 1em;
 }
