@@ -12,41 +12,32 @@ function createTags(arr) {
 		span.appendChild(document.createTextNode(arr[i]));
 		span.className = "tag";
 		span.setAttribute("id", "tag" + tagId++);
-		span.addEventListener("mouseover", function(e) {
-			e.target.style.backgroundColor = "yellow";
-			for (let l = 0; l < numLines; l++) {
-				if(document.editorField.getLine(l) == e.target.innerHTML) {
-					document.editorField.addLineClass(l, "background", "hilite");
-				};
-			}
-		});
-		span.addEventListener("mouseout", function(e) {
-			e.target.style.backgroundColor = "";
-			for (let l = 0; l < numLines; l++) {
-				if(document.editorField.getLine(l) == e.target.innerHTML) {
-					document.editorField.removeLineClass(l, "background", "hilite");
-				};
-			}
-		});
-/*		span.addEventListener("click", function(e) {
-			let numLines = document.editorField.lineCount();
-			for (let l = 0; l < numLines; l++) {
-				let strCode = document.editorField.getLine(l);
-				let strTag = e.target.innerHTML;
-				if(document.editorField.getLine(l) == e.target.innerHTML) {
-					document.editorField.addLineClass(l, "background", "hilite");
-				};
-			}
-			document.editorField.eachLine(function(line) {
-				console.log(line);
-				console.log(line.getLineNumber);
-				console.log(e.target.innerHTML);
-				// console.log("Line "+line+" is "+document.editorField.getLine(line));
-				if(line.text == e.target.innerHTML) {
-					document.editorField.addLineClass(line.order, "background", "hilite");
-				};
-			})
-		});*/
+
+		var highlight = (function(s) {
+			return {
+			    add: function() {
+			    	s.style.backgroundColor = "yellow";
+			    	for (let l = 0; l < numLines; l++) {
+						if(document.editorField.getLine(l) == s.innerHTML) {
+						document.editorField.addLineClass(l, "background", "hilite");
+						}
+					}
+			    },
+
+			    remove: function() {
+			    	s.style.backgroundColor = "";
+			    	for (let l = 0; l < numLines; l++) {
+						if(document.editorField.getLine(l) == s.innerHTML) {
+						document.editorField.removeLineClass(l, "background", "hilite");
+						}
+					}
+			    }
+			};
+		})(span);
+
+		span.onmouseover = highlight.add;
+		span.onmouseout = highlight.remove;
+
 		output.appendChild(span);
 	}
 }
@@ -55,9 +46,7 @@ function createTags(arr) {
 function parseCode() {
 	let myCode = document.getElementById("myCode");
 	let output = document.getElementById("output");
-	console.log(document.editorField.getValue());
 	let linesArray = document.editorField.getValue().split("\n");
-	console.log("Lines are: "+linesArray);
 	output.innerHTML = document.editorField.getValue();
 	createTags(linesArray);
 }
