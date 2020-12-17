@@ -19,3 +19,12 @@ body {
 /*	padding: 1em;*/
 	margin: 0.5em;
 }
+
+button {
+	padding: 0.5em 0.5em;
+	margin-top: 1.5em; 
+}
+
+button:hover {
+	color: green;
+}
