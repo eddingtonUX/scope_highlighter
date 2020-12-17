@@ -10,12 +10,19 @@ function Scope(start, end) {
 }
 
 
-function createTags(varArray) {
+function clearTags() {
 	let output = document.getElementById("output");
 
 	while (output.firstChild) {
 		output.removeChild(output.firstChild);
 	}
+}
+
+
+function createTags(varArray) {
+	let output = document.getElementById("output");
+
+	clearTags();
 
 	for (let i = 0; i < varArray.length; i++) {
 		var span = document.createElement("span");
@@ -131,6 +138,7 @@ function init() {
 	var options = {lineNumbers: true, mode: "javascript", theme: "base16-dark"};
 	let cm = new CodeMirror.fromTextArea(myCode, options);
 	document.editorField = cm;
+	cm.on("change", clearTags);
 	btn.addEventListener("click", parseCode, false);
 }
 
