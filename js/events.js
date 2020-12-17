@@ -1,30 +1,29 @@
-function variable(varName, varScope) {
+// Data structure for scope highlighting
+function Variable(varName, varScope) {
   this.name = varName;
   this.scope = varScope;
 }
 
-
-function getVarScope(tree) {
-	let names = [];
-	return //var names;
+function Scope(start, end) {
+	this.startPos = start;
+	this.endPos = end;
 }
 
-function createTags(arr) {
-	let tagId = 0;
-	let output = document.getElementById("output");
-	let numLines = document.editorField.lineCount();
 
-	if (output.innerHTML != "") {
+function createTags(varArray) {
+	let output = document.getElementById("output");
+
+	while (output.firstChild) {
 		output.removeChild(output.firstChild);
 	}
 
-	for (let i = 0; i < arr.length; i++) {
+	for (let i = 0; i < varArray.length; i++) {
 		var span = document.createElement("span");
-		span.appendChild(document.createTextNode(arr[i]));
+		span.appendChild(document.createTextNode(varArray[i].name));
 		span.className = "tag";
-		span.setAttribute("id", "tag" + tagId++);
+		span.setAttribute("id", "tag" + i);
 
-		var highlight = (function(el) {
+/*		var highlight = (function(el) {
 			return {
 			    add: function() {
 			    	el.style.backgroundColor = "yellow";
@@ -46,7 +45,7 @@ function createTags(arr) {
 		})(span);
 
 		span.onmouseover = highlight.add;
-		span.onmouseout = highlight.remove;
+		span.onmouseout = highlight.remove;*/
 
 		output.appendChild(span);
 	}
@@ -74,8 +73,12 @@ function parseCode() {
 		}
 		if (node.type == "VariableDeclaration") {
 			// get scope
-			// let varN = new variable(node.declarations[0].id.name, ast.node[i].scope);
-			// variables.push(varN);
+			let s = new Scope(blockScope.start, blockScope.end);
+			if (node.type == "var") {
+				s = new Scope(functionScope.start, functionScope.end);
+			}
+			let v = new Variable(node.declarations[0].id.name, s);
+			variables.push(v);
 			walkAST(node.declarations[0].init, blockScope, functionScope);
 			return;
 		}
@@ -117,11 +120,11 @@ function parseCode() {
 			walkAST(node.body, blockScope, functionScope);
 		}
 	}
+	walkAST(ast, ast, ast);
+	console.log(variables);
 
-
-	let linesArray = document.editorField.getValue().split("\n");
-	output.innerHTML = document.editorField.getValue();
-	createTags(linesArray);
+	// output.innerHTML = document.editorField.getValue();
+	createTags(variables);
 }
 
 
