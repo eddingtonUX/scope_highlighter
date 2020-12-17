@@ -23,29 +23,28 @@ function createTags(varArray) {
 		span.className = "tag";
 		span.setAttribute("id", "tag" + i);
 
-/*		var highlight = (function(el) {
+		var highlight = (function(el) {
 			return {
 			    add: function() {
 			    	el.style.backgroundColor = "yellow";
-			    	for (let l = 0; l < numLines; l++) {
-						if(document.editorField.getLine(l) == el.innerHTML) {
-						document.editorField.addLineClass(l, "background", "hilite");
-						}
-					}
+			    	let index = parseInt(el.id.substr(3));
+		    		let s = varArray[index].scope;
+		    		let editor = document.editorField;
+		    		editor.markText(
+		    			editor.posFromIndex(s.startPos),
+		    			editor.posFromIndex(s.endPos),
+		    			{className: "hilite"});
 			    },
 			    remove: function() {
 			    	el.style.backgroundColor = "";
-			    	for (let l = 0; l < numLines; l++) {
-						if(document.editorField.getLine(l) == el.innerHTML) {
-						document.editorField.removeLineClass(l, "background", "hilite");
-						}
-					}
+			    	let editor = document.editorField;
+			    	editor.getAllMarks().forEach(marker => marker.clear());
 			    }
 			};
 		})(span);
 
 		span.onmouseover = highlight.add;
-		span.onmouseout = highlight.remove;*/
+		span.onmouseout = highlight.remove;
 
 		output.appendChild(span);
 	}
@@ -58,7 +57,6 @@ function parseCode() {
 	let variables = [];
 
 	let ast = acorn.parse(document.editorField.getValue(), {ecmaVersion: 2020});
-	console.log(ast);
 
 	function walkAST(node, blockScope, functionScope) {
 		if (!node) {
@@ -74,7 +72,7 @@ function parseCode() {
 		if (node.type == "VariableDeclaration") {
 			// get scope
 			let s = new Scope(blockScope.start, blockScope.end);
-			if (node.type == "var") {
+			if (node.kind == "var") {
 				s = new Scope(functionScope.start, functionScope.end);
 			}
 			let v = new Variable(node.declarations[0].id.name, s);
@@ -121,9 +119,7 @@ function parseCode() {
 		}
 	}
 	walkAST(ast, ast, ast);
-	console.log(variables);
 
-	// output.innerHTML = document.editorField.getValue();
 	createTags(variables);
 }
 
