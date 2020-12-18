@@ -1,7 +1,7 @@
 // JavaScript Variable Scope Highlighter
 // For this assignment I created an app which parses simple JS code, finds variables,
 // and shows their scope. I use two external libraries - CodeMirror for text editor
-// and Acorn for JS code parsing. Acorn.parse creates an AbstracSyntaxTree.
+// and Acorn for JS code parsing. Acorn.parse creates an AbstractSyntaxTree.
 // My AST traversal doesn't cover all types of nodes presented in the AST
 // so it wouldn't work in some cases (for example, if the code contains arrow functions);
 // although it would be fairly simple to add more types of nodes in the future.
@@ -18,6 +18,21 @@
 // current node is nested, functionScope is an ancestor "function" node in which
 // node is nested. We start traversing the tree with arguments (ast, ast, ast).
 // In each iteration we narrow down the blockScope/functionScope if needed.
+
+
+// Fulfilled requirements:
+// - DOM element creation, deletion or modification
+// - Capturing and handling events
+// - Creating and handling a data structure
+// - Closures
+
+
+// Ways to improve
+// Right now tags with variables in the output just show names, but in the future
+// I plan on adding line numbers from the text editor for easier detection.
+// Also I will add more types of nodes from AST to the traversal, so that more
+// complex code could be analyzed.
+
 
 
 
@@ -165,7 +180,7 @@ function parseCode() {
 			walkAST(node.body, blockScope, functionScope);
 		}
 	}
-	
+
 	walkAST(ast, ast, ast);
 
 	// create corresponding tags for populated array of variables
